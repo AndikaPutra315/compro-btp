@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
             guests: fn () => route('login'),
             users: fn () => route('admin.dashboard')
         );
+        $middleware->alias([
+            'superadmin' => \App\Http\Middleware\EnsureSuperAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

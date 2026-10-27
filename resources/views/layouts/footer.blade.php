@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <p class="text-slate-400 text-sm leading-relaxed">
-                    <strong class="text-slate-300">FIRST SOLUTIONS STARTS FROM HERE.</strong> General Supplier suku cadang dan jasa perbaikan untuk sektor industri serta pertambangan.
+                    <strong class="text-slate-300">FIRST SOLUTION STARTS FROM HERE.</strong> General Supplier suku cadang dan jasa perbaikan untuk sektor industri serta pertambangan.
                 </p>
             </div>
 

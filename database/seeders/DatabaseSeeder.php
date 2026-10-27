@@ -18,10 +18,17 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         
-        User::create([
-            'name' => 'Administrator',
-            'email' => 'admin@borneotandayu.com',
-            'password' => Hash::make('password'),
+        User::firstOrCreate(
+            ['email' => 'admin@borneotandayu.com'],
+            [
+                'name' => 'Administrator',
+                'password' => Hash::make('password'),
+            ]
+        );
+
+        $this->call([
+            CategorySeeder::class,
         ]);
     }
+
 }

@@ -37,12 +37,12 @@ class LandingController extends Controller
         }
 
         $products = $query->latest()->paginate(12)->withQueryString();
-        $categories = Product::select('kategori')
-            ->distinct()
-            ->whereNotNull('kategori')
-            ->where('kategori', '!=', '')
-            ->pluck('kategori');
+        $categories = Product::getCategories();
+        $categoryCounts = Product::selectRaw('kategori, count(*) as total')
+            ->groupBy('kategori')
+            ->pluck('total', 'kategori')
+            ->toArray();
 
-        return view('products.index', compact('products', 'categories'));
+        return view('products.index', compact('products', 'categories', 'categoryCounts'));
     }
 }

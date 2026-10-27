@@ -25,55 +25,103 @@
             <label for="kategori" class="block text-sm font-semibold text-slate-700 mb-2">Kategori <span class="text-red-500">*</span></label>
             <select name="kategori" id="kategori" required
                 class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 outline-none transition-all text-slate-800 bg-slate-50 focus:bg-white appearance-none">
-                <option value="" disabled selected>Pilih Kategori</option>
-                <option value="Sparepart Alat Berat" {{ old('kategori') == 'Sparepart Alat Berat' ? 'selected' : '' }}>Sparepart Alat Berat</option>
-                <option value="Sparepart Hino - AC" {{ old('kategori') == 'Sparepart Hino - AC' ? 'selected' : '' }}>Sparepart Hino - AC</option>
-                <option value="Filter - Tyre - Electrical" {{ old('kategori') == 'Filter - Tyre - Electrical' ? 'selected' : '' }}>Filter - Tyre - Electrical</option>
-                <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                <option value="" disabled {{ old('kategori') ? '' : 'selected' }}>Pilih Kategori</option>
+                @foreach($categories ?? \App\Models\Product::getCategories() as $cat)
+                    <option value="{{ $cat }}" {{ old('kategori') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                @endforeach
             </select>
         </div>
 
-        <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2">Gambar Produk <span class="text-red-500">*</span></label>
-            <!-- Drop Zone -->
-            <div id="drop-zone"
-                 class="mt-1 relative border-2 border-slate-300 border-dashed rounded-xl bg-slate-50 transition-all duration-200 cursor-pointer"
-                 style="min-height: 180px;"
-                 onclick="document.getElementById('gambar').click()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Foto Utama -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                    Foto Utama Produk <span class="text-red-500">*</span>
+                </label>
+                <!-- Drop Zone 1 as Native Label -->
+                <label for="gambar" id="drop-zone-1"
+                       class="relative block border-2 border-slate-300 border-dashed rounded-xl bg-slate-50 hover:border-amber-400 hover:bg-amber-50/20 transition-all duration-200 cursor-pointer overflow-hidden"
+                       style="min-height: 180px;">
 
-                <!-- Hidden file input -->
-                <input id="gambar" name="gambar" type="file" class="sr-only" required accept="image/jpeg,image/png,image/jpg,image/gif">
+                    <input id="gambar" name="gambar" type="file" class="sr-only" required accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.bmp,.jfif">
 
-                <!-- Default state -->
-                <div id="upload-placeholder" class="flex flex-col items-center justify-center py-10 px-6 pointer-events-none">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center mb-4">
-                        <svg class="w-7 h-7 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
+                    <!-- Default state -->
+                    <div id="upload-placeholder-1" class="flex flex-col items-center justify-center py-8 px-4 pointer-events-none text-center">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <p class="text-xs font-semibold text-amber-600 mb-1">Klik untuk Pilih Foto Utama</p>
+                        <p class="text-[11px] text-slate-400">JPG, JPEG, PNG, WEBP &bull; Maks. 20MB</p>
                     </div>
-                    <p class="text-sm font-semibold text-amber-600 mb-1">Klik untuk pilih gambar</p>
-                    <p class="text-xs text-slate-400">atau <span class="font-medium text-slate-500">drag &amp; drop</span> foto ke sini</p>
-                    <p class="text-xs text-slate-400 mt-2">PNG, JPG, GIF &bull; Maks. 2MB</p>
-                </div>
 
-                <!-- Preview state (hidden by default) -->
-                <div id="upload-preview" class="hidden relative w-full h-full pointer-events-none">
-                    <img id="preview-img" src="" alt="Preview" class="w-full rounded-xl object-contain" style="max-height: 280px;">
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/70 to-transparent rounded-b-xl px-4 py-3 flex items-center justify-between">
-                        <span id="preview-name" class="text-white text-xs font-semibold truncate max-w-[70%]"></span>
-                        <span class="text-white text-xs bg-amber-500 rounded-full px-2 py-0.5">Klik untuk ganti</span>
+                    <!-- Preview state -->
+                    <div id="upload-preview-1" class="hidden relative w-full h-full min-h-[180px] pointer-events-none">
+                        <img id="preview-img-1" src="" alt="Preview 1" class="w-full h-44 rounded-xl object-contain bg-slate-100">
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-900/80 to-transparent p-2.5 flex items-center justify-between">
+                            <span id="preview-name-1" class="text-white text-xs font-semibold truncate max-w-[70%]"></span>
+                            <span class="text-white text-[10px] bg-amber-500 rounded-full px-2 py-0.5">Ganti Foto</span>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Drag active overlay -->
-                <div id="drag-overlay" class="hidden absolute inset-0 rounded-xl bg-amber-500/10 border-2 border-amber-500 flex items-center justify-center pointer-events-none">
-                    <div class="text-center">
-                        <svg class="mx-auto w-10 h-10 text-amber-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                        </svg>
-                        <p class="text-amber-600 font-bold text-sm">Lepaskan untuk upload!</p>
+                    <!-- Drag overlay -->
+                    <div id="drag-overlay-1" class="hidden absolute inset-0 rounded-xl bg-amber-500/10 border-2 border-amber-500 flex items-center justify-center pointer-events-none">
+                        <p class="text-amber-600 font-bold text-xs">Lepaskan untuk upload!</p>
                     </div>
+                </label>
+                @error('gambar')
+                    <p class="text-xs text-red-500 mt-1.5 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>{{ $message }}</span>
+                    </p>
+                @enderror
+            </div>
+
+            <!-- Foto Kedua / Tambahan -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-sm font-semibold text-slate-700">Foto Kedua / Tambahan</label>
+                    <span class="text-[11px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-medium">Opsional</span>
                 </div>
+                <!-- Drop Zone 2 as Native Label -->
+                <label for="gambar_2" id="drop-zone-2"
+                       class="relative block border-2 border-slate-300 border-dashed rounded-xl bg-slate-50 hover:border-amber-400 hover:bg-amber-50/20 transition-all duration-200 cursor-pointer overflow-hidden"
+                       style="min-height: 180px;">
+
+                    <input id="gambar_2" name="gambar_2" type="file" class="sr-only" accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.bmp,.jfif">
+
+                    <!-- Default state -->
+                    <div id="upload-placeholder-2" class="flex flex-col items-center justify-center py-8 px-4 pointer-events-none text-center">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-600 mb-1">Tambah Foto Kedua</p>
+                        <p class="text-[11px] text-slate-400">Untuk multi-foto di popup lightbox (Maks. 20MB)</p>
+                    </div>
+
+                    <!-- Preview state -->
+                    <div id="upload-preview-2" class="hidden relative w-full h-full min-h-[180px] pointer-events-none">
+                        <img id="preview-img-2" src="" alt="Preview 2" class="w-full h-44 rounded-xl object-contain bg-slate-100">
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-900/80 to-transparent p-2.5 flex items-center justify-between">
+                            <span id="preview-name-2" class="text-white text-xs font-semibold truncate max-w-[70%]"></span>
+                            <span class="text-white text-[10px] bg-slate-700 rounded-full px-2 py-0.5">Ganti Foto</span>
+                        </div>
+                    </div>
+
+                    <!-- Drag overlay -->
+                    <div id="drag-overlay-2" class="hidden absolute inset-0 rounded-xl bg-amber-500/10 border-2 border-amber-500 flex items-center justify-center pointer-events-none">
+                        <p class="text-amber-600 font-bold text-xs">Lepaskan untuk upload!</p>
+                    </div>
+                </label>
+                @error('gambar_2')
+                    <p class="text-xs text-red-500 mt-1.5 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>{{ $message }}</span>
+                    </p>
+                @enderror
             </div>
         </div>
 
@@ -90,58 +138,70 @@
 
 <script>
 (function() {
-    const dropZone    = document.getElementById('drop-zone');
-    const fileInput   = document.getElementById('gambar');
-    const placeholder = document.getElementById('upload-placeholder');
-    const preview     = document.getElementById('upload-preview');
-    const previewImg  = document.getElementById('preview-img');
-    const previewName = document.getElementById('preview-name');
-    const dragOverlay = document.getElementById('drag-overlay');
+    function setupDropzone(zoneId, inputId, placeholderId, previewId, imgId, nameId, overlayId) {
+        const dropZone    = document.getElementById(zoneId);
+        const fileInput   = document.getElementById(inputId);
+        const placeholder = document.getElementById(placeholderId);
+        const preview     = document.getElementById(previewId);
+        const previewImg  = document.getElementById(imgId);
+        const previewName = document.getElementById(nameId);
+        const dragOverlay = document.getElementById(overlayId);
 
-    function showPreview(file) {
-        if (!file || !file.type.startsWith('image/')) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImg.src = e.target.result;
-            previewName.textContent = file.name;
-            placeholder.classList.add('hidden');
-            preview.classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
+        if (!dropZone || !fileInput) return;
+
+        function showPreview(file) {
+            if (!file) return;
+            const isImage = (file.type && file.type.startsWith('image/')) || /\.(jpe?g|png|webp|gif|bmp|jfif)$/i.test(file.name);
+            if (!isImage) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewName.textContent = file.name;
+                placeholder.classList.add('hidden');
+                preview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files.length > 0) {
+                showPreview(e.target.files[0]);
+            }
+        });
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            dragOverlay.classList.remove('hidden');
+            dropZone.classList.add('border-amber-500', 'bg-amber-50');
+        });
+
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            dragOverlay.classList.add('hidden');
+            dropZone.classList.remove('border-amber-500', 'bg-amber-50');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            dragOverlay.classList.add('hidden');
+            dropZone.classList.remove('border-amber-500', 'bg-amber-50');
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) {
+                try {
+                    const dt = new DataTransfer();
+                    dt.items.add(files[0]);
+                    fileInput.files = dt.files;
+                } catch (err) {
+                    fileInput.files = files;
+                }
+                showPreview(files[0]);
+            }
+        });
     }
 
-    fileInput.addEventListener('change', function(e) {
-        if (e.target.files.length > 0) showPreview(e.target.files[0]);
-    });
-
-    // Drag & Drop
-    dropZone.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dragOverlay.classList.remove('hidden');
-        dropZone.classList.add('border-amber-500', 'bg-amber-50');
-    });
-
-    dropZone.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dragOverlay.classList.add('hidden');
-        dropZone.classList.remove('border-amber-500', 'bg-amber-50');
-    });
-
-    dropZone.addEventListener('drop', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dragOverlay.classList.add('hidden');
-        dropZone.classList.remove('border-amber-500', 'bg-amber-50');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            const dt = new DataTransfer();
-            dt.items.add(files[0]);
-            fileInput.files = dt.files;
-            showPreview(files[0]);
-        }
-    });
+    setupDropzone('drop-zone-1', 'gambar', 'upload-placeholder-1', 'upload-preview-1', 'preview-img-1', 'preview-name-1', 'drag-overlay-1');
+    setupDropzone('drop-zone-2', 'gambar_2', 'upload-placeholder-2', 'upload-preview-2', 'preview-img-2', 'preview-name-2', 'drag-overlay-2');
 })();
 </script>
 @endsection

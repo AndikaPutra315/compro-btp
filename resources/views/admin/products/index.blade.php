@@ -49,13 +49,12 @@
                     <select
                         name="kategori"
                         class="h-full px-4 py-3 text-sm text-slate-700 bg-transparent border-none outline-none cursor-pointer appearance-none pr-8"
-                        style="background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem;"
+                        style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem;"
                     >
                         <option value="">Semua Kategori</option>
-                        <option value="Sparepart Alat Berat" {{ request('kategori') == 'Sparepart Alat Berat' ? 'selected' : '' }}>Sparepart Alat Berat</option>
-                        <option value="Sparepart Hino - AC" {{ request('kategori') == 'Sparepart Hino - AC' ? 'selected' : '' }}>Sparepart Hino - AC</option>
-                        <option value="Filter - Tyre - Electrical" {{ request('kategori') == 'Filter - Tyre - Electrical' ? 'selected' : '' }}>Filter - Tyre - Electrical</option>
-                        <option value="Lainnya" {{ request('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        @foreach($categories ?? \App\Models\Product::getCategories() as $cat)
+                            <option value="{{ $cat }}" {{ request('kategori') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
                     </select>
                 </div>
 

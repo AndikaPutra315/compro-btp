@@ -48,7 +48,7 @@
             <div class="space-y-3">
                 <h3 class="text-base font-bold text-white mb-5 uppercase tracking-wider flex items-center gap-2">
                     <span class="w-1.5 h-4 bg-amber-500 rounded-full"></span>
-                    Lokasi Kantor
+                    Lokasi Workshop
                 </h3>
                 <div class="w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-slate-700/80 shadow-lg bg-slate-800 relative group">
                     <iframe

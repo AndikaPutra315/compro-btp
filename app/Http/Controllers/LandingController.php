@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProjectDocument;
 use App\Models\CompanyPhoto;
 use App\Models\Client;
+use App\Models\OrganizationMember;
 
 class LandingController extends Controller
 {
@@ -17,7 +18,10 @@ class LandingController extends Controller
         $projectDocs = ProjectDocument::latest()->get();
         $companyPhotos = CompanyPhoto::orderBy('urutan')->get();
         $clients = Client::orderBy('urutan')->get();
-        return view('landing', compact('products', 'projectDocs', 'companyPhotos', 'clients'));
+        $orgRoots = OrganizationMember::whereNull('parent_id')
+            ->with('children.children.children')
+            ->orderBy('urutan')->orderBy('id')->get();
+        return view('landing', compact('products', 'projectDocs', 'companyPhotos', 'clients', 'orgRoots'));
     }
 
     public function allProducts(Request $request)

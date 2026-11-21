@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CompanyPhotoController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\OrganizationController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/home', function () {
@@ -36,6 +37,7 @@ Route::prefix('ruang-manajemen')->name('admin.')->middleware('auth')->group(func
     Route::resource('dokumentasi', ProjectDocumentController::class);
     Route::resource('foto-tentang', CompanyPhotoController::class);
     Route::resource('klien', ClientController::class);
+    Route::resource('organisasi', OrganizationController::class);
     Route::get('ganti-password', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('ganti-password', [PasswordController::class, 'update'])->name('password.update');
 

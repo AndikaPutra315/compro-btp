@@ -85,6 +85,13 @@
                     <span class="sidebar-link-text whitespace-nowrap overflow-hidden transition-all duration-300">Kelola Klien</span>
                 </a>
 
+                <a href="{{ route('admin.organisasi.index') }}" 
+                   title="Struktur Organisasi"
+                   class="sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.organisasi.*') ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/20 font-semibold' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                    <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.organisasi.*') ? 'text-white' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <span class="sidebar-link-text whitespace-nowrap overflow-hidden transition-all duration-300">Struktur Organisasi</span>
+                </a>
+
                 @if(Auth::user() && Auth::user()->isSuperAdmin())
                 <div id="sidebar-superadmin-label" class="pt-4 px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-amber-400 whitespace-nowrap overflow-hidden transition-all duration-300 flex items-center gap-1.5">
                     <svg class="w-3 h-3 text-amber-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"/></svg>

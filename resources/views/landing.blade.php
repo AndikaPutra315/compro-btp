@@ -542,7 +542,7 @@
             overflow: hidden;
             padding: 10px 0;
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, t1111ransparent, black 10%, black 90%, transparent);
         }
         .client-marquee-track {
             display: flex;
@@ -652,6 +652,111 @@
         </div>
     </div>
 </section>
+
+<!-- Struktur Organisasi -->
+<section id="struktur-organisasi" class="py-20 bg-white border-t border-slate-100">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Struktur Organisasi</h2>
+            <div class="w-20 h-1.5 bg-amber-500 mx-auto rounded-full"></div>
+        </div>
+
+        @if(isset($orgRoots) && $orgRoots->isNotEmpty())
+            <div class="org-chart-container overflow-x-auto pb-4">
+                <div class="org-chart" style="min-width: fit-content; margin: 0 auto;">
+                    @include('partials.org-chart-node', ['nodes' => $orgRoots])
+                </div>
+            </div>
+        @else
+            <p class="text-center text-slate-400 py-10">Belum ada data struktur organisasi.</p>
+        @endif
+    </div>
+</section>
+
+<style>
+/* ══════════════════════════════
+   Org Chart – Public Landing
+══════════════════════════════ */
+.org-chart { text-align: center; }
+.org-chart ul {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 28px;
+    position: relative;
+    flex-wrap: wrap;
+}
+/* vertical line FROM parent down */
+.org-chart ul::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    border-left: 2px solid #CBD5E1;
+    height: 28px;
+    transform: translateX(-50%);
+}
+.org-chart li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 28px;
+    list-style: none;
+}
+/* vertical line INTO each child */
+.org-chart li::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    border-left: 2px solid #CBD5E1;
+    height: 28px;
+    transform: translateX(-50%);
+}
+/* horizontal connectors between siblings */
+.org-chart li:not(:only-child)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    border-top: 2px solid #CBD5E1;
+    width: 50%;
+}
+.org-chart li:not(:only-child):first-child::after  { left: 50%; }
+.org-chart li:not(:only-child):last-child::after   { left: 0; width: 50%; }
+.org-chart li:not(:only-child):not(:first-child):not(:last-child)::after { left: 0; width: 100%; }
+
+/* Node card */
+.org-node-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 130px;
+    max-width: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    border: 1.5px solid #E2E8F0;
+    background: #fff;
+}
+.org-node-header {
+    width: 100%;
+    background: #1E293B;
+    color: #fff;
+    padding: 7px 12px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+.org-node-body {
+    padding: 8px 14px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1E293B;
+    text-align: center;
+    line-height: 1.4;
+}
+</style>
 
 <!-- Dokumentasi Proyek -->
 <section id="dokumentasi" class="py-16 sm:py-24 bg-slate-50 border-y border-slate-200/80">
